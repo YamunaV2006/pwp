@@ -1,0 +1,389 @@
+[4/17, 8:11 AM] Lokeshwari: Perfect — here is your FINAL PROMPT (Java version) with only required changes made and everything else kept exactly the same ✅
+
+
+---
+
+✅ FINAL PROMPT (JAVA VERSION)
+
+
+---
+
+I am a student doing a lab practical exam.
+
+My topic is: [PASTE YOUR FULL QUESTION HERE]
+
+Based on my topic above, give me a complete step by step
+implementation guide in this EXACT order and structure:
+
+
+---
+
+PART 1 - PROJECT SETUP (JAVA):
+
+Create a folder with a proper name based on topic
+
+Create Java project structure:
+src/main/java/
+
+Create Main.java inside it
+
+Write a simple Java program relevant to the topic
+
+
+
+---
+
+PART 2 - GITHUB:
+
+Give these steps in exact order:
+
+Step 1: Create repo in GitHub with proper name
+
+Step 2: Open terminal and run:
+git init
+git add .
+git commit -m "Initial commit"
+
+Step 3: Connect remote and push:
+git remote add origin https://github.com/YOUR-USERNAME/REPO-NAME.git
+git branch -M main
+git push -u origin main
+
+Step 4: Clone the repo:
+git clone https://github.com/YOUR-USERNAME/REPO-NAME.git
+cd REPO-NAME
+
+Step 5: Make any update then:
+git add .
+git commit -m "updated"
+git push
+
+
+---
+
+PART 3 - DOCKER:
+
+Step 0: Build project using Maven:
+mvn clean package
+
+Step 1: Create Dockerfile (no extension) using Java image:
+FROM openjdk:17
+COPY target/app.jar app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]
+
+Step 2: Create .dockerignore file containing:
+.git
+Dockerfile
+target/
+
+Step 3: Make sure Docker Desktop is running
+
+Step 4: Build image:
+docker build -t APP-NAME .
+
+Step 5: Verify image:
+docker images
+
+Step 6: Run container:
+docker run -d -p 8080:8080 APP-NAME
+docker ps
+
+Step 7: Push to DockerHub (needed for Kubernetes):
+docker login
+docker tag APP-NAME YOUR-DOCKERHUB-USERNAME/APP-NAME
+docker push YOUR-DOCKERHUB-USERNAME/APP-NAME
+
+
+---
+
+PART 4 - KUBERNETES:
+
+Step 1: Enable Kubernetes in Docker Desktop
+Settings → Kubernetes → Enable Kubernetes
+
+Step 2: Check context:
+kubectl config current-context
+(Must show: docker-desktop)
+
+Step 3: Create deployment.yaml with:
+
+2 replicas
+
+image from DockerHub
+
+containerPort 8080
+
+
+Step 4: Create service.yaml with:
+
+type: NodePort
+
+nodePort: 30007
+
+
+Step 5: Apply both files:
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+
+Step 6: Verify everything:
+kubectl get pods
+kubectl get deployments
+kubectl get svc
+
+Step 7: Open in browser:
+http://localhost:30007
+
+Step 8: If not working, use port-forward as backup:
+kubectl port-forward service/SERVICE-NAME 8082:80
+Open http://localhost:8082
+
+
+---
+
+PART 5 - JENKINS:
+
+Step 1: Open Jenkins at http://localhost:8080
+
+Step 2: Install these plugins:
+
+Docker Pipeline
+
+Kubernetes CLI
+
+Git plugin
+
+
+Step 3: Add GitHub credentials
+
+Step 4: Create new Pipeline project with proper name
+
+Step 5: Give complete pipeline script with these stages:
+Stage 1 - Clone: git checkout from GitHub
+Stage 2 - Build with Maven: mvn clean package
+Stage 3 - Build Docker Image: docker build
+Stage 4 - Run Container: docker rm old + docker run new
+Stage 5 - Deploy to Kubernetes: kubectl apply both yaml files
+
+Use bat commands for Windows
+
+
+---
+
+PART 6 - MAVEN SETUP (SEPARATE SECTION):
+
+Step 1: Create pom.xml in project root with:
+
+groupId, artifactId, version
+
+packaging as jar
+
+Basic build configuration
+
+
+Step 2: Maven commands to know:
+mvn clean          - cleans old build
+mvn compile        - compiles code
+mvn test           - runs tests
+mvn package        - creates jar
+mvn clean install  - full build
+
+Step 3: Show where pom.xml goes in folder structure
+
+
+---
+
+🎯 FINAL NOTE
+
+👉 Use this prompt for Java-based lab questions
+👉 Flow followed: Git → Maven → Docker → Kubernetes → Jenkins
+
+
+---
+
+If you want, I can next:
+
+🔥 Fill this with your exact lab question answer
+
+🎤 Give viva questions
+
+🛠 Help debug if anything fails
+
+
+Just tell 👍
+[4/17, 8:11 AM] Lokeshwari: I am a student doing a lab practical exam.
+
+My topic is: [PASTE YOUR FULL QUESTION HERE]
+
+Based on my topic above, give me a complete step by step
+implementation guide in this EXACT order and structure:
+
+
+---
+
+PART 1 - PROJECT SETUP (HTML):
+
+Create a folder with a proper name based on topic
+
+Create index.html relevant to the topic
+
+HTML must include all sections the question asks for
+
+Add basic CSS styling inside the HTML file itself
+
+No external CSS files
+
+
+
+---
+
+PART 2 - GITHUB:
+
+Give these steps in exact order:
+Step 1: Create repo in GitHub with proper name
+Step 2: Open terminal and run:
+git init
+git add .
+git commit -m "Initial commit"
+Step 3: Connect remote and push:
+git remote add origin https://github.com/YOUR-USERNAME/REPO-NAME.git
+git branch -M main
+git push -u origin main
+Step 4: Clone the repo:
+git clone https://github.com/YOUR-USERNAME/REPO-NAME.git
+cd REPO-NAME
+Step 5: Make any update then:
+git add .
+git commit -m "updated"
+git push
+
+
+---
+
+PART 3 - DOCKER:
+
+Step 1: Create Dockerfile (no extension) using nginx:alpine:
+FROM nginx:alpine
+COPY . /usr/share/nginx/html
+
+Step 2: Create .dockerignore file containing:
+.git
+Dockerfile
+
+Step 3: Make sure Docker Desktop is running
+
+Step 4: Build image:
+docker build -t APP-NAME .
+
+Step 5: Verify image:
+docker images
+
+Step 6: Run container:
+docker run -d -p 8080:80 APP-NAME
+docker ps
+Open http://localhost:8080
+
+Step 7: Push to DockerHub (needed for Kubernetes):
+docker login
+docker tag APP-NAME YOUR-DOCKERHUB-USERNAME/APP-NAME
+docker push YOUR-DOCKERHUB-USERNAME/APP-NAME
+
+
+---
+
+PART 4 - KUBERNETES:
+
+Step 1: Enable Kubernetes in Docker Desktop
+Settings → Kubernetes → Enable Kubernetes
+
+Step 2: Check context:
+kubectl config current-context
+(Must show: docker-desktop)
+
+Step 3: Create deployment.yaml with:
+- 2 replicas
+- image from DockerHub
+- containerPort 80
+
+Step 4: Create service.yaml with:
+- type: NodePort
+- nodePort: 30007
+
+Step 5: Apply both files:
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+
+Step 6: Verify everything:
+kubectl get pods
+kubectl get deployments
+kubectl get svc
+
+Step 7: Open in browser:
+http://localhost:30007
+
+Step 8: If not working, use port-forward as backup:
+kubectl port-forward service/SERVICE-NAME 8082:80
+Open http://localhost:8082
+
+
+---
+
+PART 5 - JENKINS:
+
+Step 1: Open Jenkins at http://localhost:8080
+Step 2: Install these plugins:
+- Docker Pipeline
+- Kubernetes CLI
+- Git plugin
+Step 3: Add GitHub credentials
+Step 4: Create new Pipeline project with proper name
+Step 5: Give complete pipeline script with these 4 stages:
+Stage 1 - Clone: git checkout from GitHub
+Stage 2 - Build Docker Image: docker build
+Stage 3 - Run Container: docker rm old + docker run new
+Stage 4 - Deploy to Kubernetes: kubectl apply both yaml files
+
+Use bat commands for Windows  
+
+
+ PART 6 - MAVEN SETUP (SEPARATE SECTION):
+
+Step 1: Create pom.xml in project root with:
+- groupId, artifactId, version
+- packaging as war or jar
+- Basic build configuration
+
+Step 2: Maven commands to know:
+mvn clean          - cleans old build
+mvn compile        - compiles code
+mvn test           - runs tests
+mvn package        - creates jar/war
+mvn clean install  - full build
+
+Step 3: Show where pom.xml goes in folder structure
+
+
+---
+
+
+
+
+
+
+
+
+
+food-delivery/
+│── pom.xml
+│── Jenkinsfile
+│── Dockerfile
+│── deployment.yaml
+│── service.yaml
+│
+└── src/
+    ├── main/java/com/foodapp/
+    │   ├── App.java
+    │   ├── Order.java
+    │   └── OrderService.java
+    │
+    └── test/java/com/foodapp/
+        └── AppTest.java
