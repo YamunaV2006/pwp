@@ -1,0 +1,238 @@
+COMPLETE PROJECT — DO EXACTLY THIS
+🟢 STEP 1 — CREATE PROJECT
+Open terminal and run:
+Bash
+mvn archetype:generate -DgroupId=com.foodapp -DartifactId=food-delivery -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+Open the folder food-delivery.
+🟢 STEP 2 — FINAL FOLDER STRUCTURE YOU MUST HAVE
+Inside food-delivery, your structure should look like this:
+
+food-delivery/
+│── pom.xml
+│── Jenkinsfile
+│── Dockerfile
+│── deployment.yaml
+│── service.yaml
+│
+└── src/
+    ├── main/java/com/foodapp/
+    │   ├── App.java
+    │   ├── Order.java
+    │   └── OrderService.java
+    │
+    └── test/java/com/foodapp/
+        └── AppTest.java
+🟢 STEP 3 — PUT THIS CODE IN EACH FILE
+📄 Order.java
+Java
+package com.foodapp;
+
+public class Order {
+    public int orderId;
+    public String item;
+    public String status;
+
+    public Order(int orderId, String item, String status) {
+        this.orderId = orderId;
+        this.item = item;
+        this.status = status;
+    }
+}
+📄 OrderService.java
+Java
+package com.foodapp;
+
+import java.util.*;
+
+public class OrderService {
+    List<Order> orders = new ArrayList<>();
+
+    public String placeOrder(Order order) {
+        for (Order o : orders) {
+            if (o.orderId == order.orderId) {
+                return "Duplicate Order!";
+            }
+        }
+        orders.add(order);
+        return "Order Placed";
+    }
+
+    public String trackOrder(int orderId) {
+        for (Order o : orders) {
+            if (o.orderId == orderId) {
+                return o.status;
+            }
+        }
+        return "Order Not Found";
+    }
+}
+📄 App.java
+Java
+package com.foodapp;
+
+public class App {
+    public static void main(String[] args) {
+        OrderService service = new OrderService();
+
+        Order order1 = new Order(1, "Pizza", "Placed");
+
+        System.out.println(service.placeOrder(order1));
+        System.out.println(service.trackOrder(1));
+    }
+}
+📄 AppTest.java
+Java
+package com.foodapp;
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class AppTest {
+
+    @Test
+    void testPlaceOrder() {
+        OrderService service = new OrderService();
+        assertEquals("Order Placed",
+                service.placeOrder(new Order(1, "Pizza", "Placed")));
+    }
+
+    @Test
+    void testDuplicateOrder() {
+        OrderService service = new OrderService();
+        service.placeOrder(new Order(1, "Pizza", "Placed"));
+        assertEquals("Duplicate Order!",
+                service.placeOrder(new Order(1, "Burger", "Placed")));
+    }
+
+    @Test
+    void testTrackOrder() {
+        OrderService service = new OrderService();
+        service.placeOrder(new Order(1, "Pizza", "Delivered"));
+        assertEquals("Delivered", service.trackOrder(1));
+    }
+}
+📄 pom.xml (ADD THIS INSIDE <dependencies>)
+XML
+<dependency>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter</artifactId>
+    <version>5.9.0</version>
+    <scope>test</scope>
+</dependency>
+🟢 STEP 4 — RUN PROJECT
+Bash
+mvn clean install
+✔ Must show BUILD SUCCESS
+🟢 STEP 5 — PUSH TO GITHUB
+Create repo in GitHub, then run:
+Bash
+git init
+git add .
+git commit -m "project"
+git branch -M main
+git remote add origin YOUR_REPO_URL
+git push -u origin main
+🟢 STEP 6 — CREATE Jenkinsfile
+Groovy
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Build') {
+            steps {
+                sh 'mvn clean compile'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+
+        stage('Package') {
+            steps {
+                sh 'mvn package'
+            }
+        }
+    }
+}
+👉 Save as: Jenkinsfile (no extension)
+PUSH AGAIN
+Bash
+git add .
+git commit -m "jenkins pipeline"
+git push
+🟢 STEP 7 — RUN JENKINS
+Open Jenkins (http://localhost:8080)
+Create Pipeline job
+Select Pipeline from SCM
+Add GitHub repo link
+Click Build Now
+✔ You will see:
+Build
+Test
+Package
+🟢 STEP 8 — DOCKER
+📄 Dockerfile
+Dockerfile
+FROM openjdk:17
+COPY target/food-delivery-1.0-SNAPSHOT.jar app.jar
+ENTRYPOINT ["java", "-jar", "app.jar"]
+Run:
+Bash
+mvn clean package
+docker build -t yourname/food-app .
+docker push yourname/food-app
+🟢 STEP 9 — KUBERNETES
+📄 deployment.yaml
+YAML
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: food-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: food-app
+  template:
+    metadata:
+      labels:
+        app: food-app
+    spec:
+      containers:
+      - name: food-app
+        image: yourname/food-app
+        ports:
+        - containerPort: 8080
+📄 service.yaml
+YAML
+apiVersion: v1
+kind: Service
+metadata:
+  name: food-service
+spec:
+  type: NodePort
+  selector:
+    app: food-app
+  ports:
+    - port: 80
+      targetPort: 8080
+Run:
+Bash
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+🎯 YOU ARE DONE
+You completed ALL:
+✔ Java development
+✔ JUnit testing
+✔ GitHub version control
+✔ Jenkins CI/CD pipeline
+✔ Docker deployment
+✔ Kubernetes deployment
+👍 If something fails
+Don’t restart everything.
+Just tell me: 👉 which step number failed + error
+I’ll fix only that part.
